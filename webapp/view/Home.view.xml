@@ -1,0 +1,68 @@
+<mvc:View
+    controllerName="com.sap.photoeditor.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:u="sap.ui.unified"
+    xmlns:suite="sap.suite.ui.commons.imageeditor">
+
+    <SplitApp id="splitApp">
+        <!-- Master Page (Left Panel) -->
+        <masterPages>
+            <Page id="masterPage" title="Templates">
+                <List id="imageTemplateList" mode="SingleSelectMaster" selectionChange="onSelectTemplate">
+                    <items>
+                        <CustomListItem>
+                            <HBox alignItems="Center">
+                                <Image src="../images/poc_image.png" width="80px" height="80px" />
+                                <Text text="Demo" class="sapUiSmallMarginBegin"/>
+                            </HBox>
+                        </CustomListItem>
+                        <CustomListItem>
+                            <HBox alignItems="Center">
+                                <Image src="../images/poster_app_image_2.png" width="80px" height="80px" />
+                                <Text text="Vigyan Diwas" class="sapUiSmallMarginBegin"/>
+                            </HBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </Page>
+        </masterPages>
+
+        <!-- Detail Page (Right Panel) -->
+        <detailPages>
+            <Page id="detailPage" title="Editor">
+                <VBox class="sapUiSmallMargin">
+                    <!-- Upload Image -->
+                    <Title text="Upload Your Image" level="H2" class="sapUiSmallMarginTop" />
+                    <u:FileUploader
+                        id="fileUploader"
+                        change="onUploadImage"
+                        fileType="jpg,png"
+                        uploadComplete="onUploadComplete"
+                        class="sapUiSmallMarginTop"
+                    />
+
+                    <Panel>
+    <content>
+     <Image id="previewImage" width="300px" height="300px" class="sapUiSmallMarginTop"/>
+    </content>
+</Panel>
+
+                    <!-- Image Editor -->
+                    <Title text="Image Editor" level="H2" class="sapUiSmallMarginTop"/>
+                    <suite:ImageEditor id="imageEditor" width="100%" height="400px" class="sapUiSmallMarginTop"/>
+
+                    <!-- Editing Buttons -->
+                    <HBox class="sapUiSmallMarginTop">
+                        
+                        <Button text="Crop" press="onCrop"/>
+                       
+                    </HBox>
+
+                    <!-- Download Button -->
+                    <Button text="Download Image" press="onDownloadImage" class="sapUiSmallMarginTop"/>
+                </VBox>
+            </Page>
+        </detailPages>
+    </SplitApp>
+</mvc:View>
