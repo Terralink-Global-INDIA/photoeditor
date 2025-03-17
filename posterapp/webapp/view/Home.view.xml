@@ -13,14 +13,20 @@
                     <items>
                         <CustomListItem>
                             <HBox alignItems="Center">
-                                <Image src="../images/poc_image.png" width="80px" height="80px" />
+                                <Image src="./images/poc_image.png" width="80px" height="80px" />
                                 <Text text="Demo" class="sapUiSmallMarginBegin"/>
                             </HBox>
                         </CustomListItem>
                         <CustomListItem>
                             <HBox alignItems="Center">
-                                <Image src="../images/poster_app_image_2.png" width="80px" height="80px" />
+                                <Image src="./images/poster_app_image_2.png" width="80px" height="80px" />
                                 <Text text="Vigyan Diwas" class="sapUiSmallMarginBegin"/>
+                            </HBox>
+                        </CustomListItem>
+                          <CustomListItem>
+                            <HBox alignItems="Center">
+                                <Image src="./images/poster_dev_template.jpg" width="80px" height="80px" />
+                                <Text text="Holika Dahan" class="sapUiSmallMarginBegin"/>
                             </HBox>
                         </CustomListItem>
                     </items>
@@ -31,6 +37,9 @@
         <!-- Detail Page (Right Panel) -->
         <detailPages>
             <Page id="detailPage" title="Editor">
+             <headerContent>
+                    <Button id="profileAvatar" icon="sap-icon://customer" press="onProfilePress" />
+                </headerContent>
                 <VBox class="sapUiSmallMargin">
                     <!-- Upload Image -->
                     <Title text="Upload Your Image" level="H2" class="sapUiSmallMarginTop" />
@@ -55,14 +64,36 @@
                     <!-- Editing Buttons -->
                     <HBox class="sapUiSmallMarginTop">
                         
-                        <Button text="Crop" press="onCrop"/>
+                        <Button text="Crop" press="onCrop" icon="sap-icon://crop" type="Success"/>
                        
                     </HBox>
 
                     <!-- Download Button -->
-                    <Button text="Download Image" press="onDownloadImage" class="sapUiSmallMarginTop"/>
+                    <Button text="Download Image" type="Accept" press="onDownloadImage" class="sapUiSmallMarginTop" icon="sap-icon://download"/>
                 </VBox>
             </Page>
         </detailPages>
     </SplitApp>
+
+    <Dialog id="profileDialog" title="User Profile" class="sapUiContentPadding">
+        <VBox>
+            <Label text="Name" />
+            <Input id="userName" placeholder="Enter your name" />
+
+            <Label text="Designation" />
+            <Input id="userDesignation" placeholder="Enter your designation" />
+
+            <Label text="Facebook Handle" />
+            <Input id="facebookHandle" placeholder="Enter Facebook link" />
+
+            <Label text="Instagram Handle" />
+            <Input id="instagramHandle" placeholder="Enter Instagram link" />
+        </VBox>
+        <beginButton>
+            <Button text="Save" type="Emphasized" press="onSaveProfile"/>
+        </beginButton>
+        <endButton>
+            <Button text="Close" press="onCloseProfile"/>
+        </endButton>
+    </Dialog>
 </mvc:View>

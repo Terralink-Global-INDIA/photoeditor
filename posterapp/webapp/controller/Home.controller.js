@@ -23,6 +23,22 @@ sap.ui.define([
             });
 
             this.getView().setModel(oModel, "templateModel");
+            var oModel = new sap.ui.model.json.JSONModel({
+                userProfile: {
+                    name: "",
+                    designation: "",
+                    facebook: "",
+                    instagram: ""
+                }
+            });
+        
+            this.getView().setModel(oModel, "profileModel");
+        
+            // Load data from localStorage if available
+            var storedUserData = localStorage.getItem("userProfile");
+            if (storedUserData) {
+                oModel.setProperty("/userProfile", JSON.parse(storedUserData));
+            }
         },
 
         // When user selects a template
@@ -113,6 +129,7 @@ sap.ui.define([
         // Generate and download the final image
         onDownloadImage: function () {
             var oModel = this.getView().getModel("templateModel");
+            var profileModel = this.getView().getModel("profileModel");
             var sTemplateSrc = oModel.getProperty("/selectedTemplate");
             var sUploadedSrc = oModel.getProperty("/uploadedImage");
             var sCroppedSrc = oModel.getProperty("/croppedImage");
@@ -140,6 +157,35 @@ sap.ui.define([
 
                 imgUser.onload = function () {
                     ctx.drawImage(imgUser, 700, 600, 200, 200); // Position user image on template
+                     // Get user profile details
+            var userName = profileModel.getProperty("/userProfile/name") || "Hem Chand";
+            var userDesignation = profileModel.getProperty("/userProfile/designation") || "BJP President";
+
+            // Set font properties
+            ctx.font = "bold 30px Arial";
+            ctx.fillStyle = "#ffffff"; // White color
+            ctx.textAlign = "center";
+
+             // Add black shadow for visibility
+             ctx.shadowColor = "black";
+             ctx.shadowBlur = 5;
+             ctx.shadowOffsetX = 2;
+             ctx.shadowOffsetY = 2;
+
+              // Position text at the bottom of the poster
+            var textX = canvas.width / 2;
+            var textY = canvas.height - 30; // 50px from bottom
+
+             // Add Name and Designation
+             ctx.fillText(userName, textX, textY - 30);
+             ctx.fillText(userDesignation, textX, textY);
+
+            // Remove shadow for cleaner download
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+
                     var link = document.createElement("a");
                     link.download = "custom_image.png";
                     link.href = canvas.toDataURL("image/png");
@@ -166,5 +212,36 @@ sap.ui.define([
         onResetEditor: function () {
             this.getView().byId("imageEditor").reset();
         },
+        onProfilePress: function () {
+            if (!this.byId("profileDialog")) {
+                sap.ui.xmlfragment(this.getView().getId(), "com.sap.photoeditor.view.ProfileDialog", this);
+            }
+            this.byId("profileDialog").open();
+        },
+        
+        onCloseProfile: function () {
+            this.byId("profileDialog").close();
+        },
+        
+        onSaveProfile: function () {
+            var oModel = this.getView().getModel("profileModel");
+            var oDialog = this.byId("profileDialog");
+            var userData = {
+                name: this.byId("userName").getValue(),
+                designation: this.byId("userDesignation").getValue(),
+                facebook: this.byId("facebookHandle").getValue(),
+                instagram: this.byId("instagramHandle").getValue()
+            };
+        
+            // Save to Model
+            oModel.setProperty("/userProfile", userData);
+        
+            // Save to localStorage
+            localStorage.setItem("userProfile", JSON.stringify(userData));
+        
+            sap.m.MessageToast.show("Profile saved successfully!");
+            this.byId("profileDialog").close();
+            oDialog.close();
+        }
     });
 });

@@ -1,0 +1,14 @@
+{
+    "welcomeFile": "/posterapp/index.html",
+   "authenticationMethod": "none",
+   "routes": [
+     {
+       "source": "^/posterapp/(.*)$",
+       "target": "$1",
+       "localDir": "webapp",
+       "authenticationType": "none",
+       "cacheControl": "must-revalidate"
+     }
+   ]
+ }
+ 

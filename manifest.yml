@@ -1,0 +1,7 @@
+applications:
+- name: posterapp
+  buildpacks:
+   - https://github.com/cloudfoundry/nodejs-buildpack
+  random-route: true
+  path: posterapp
+  memory: 128M
